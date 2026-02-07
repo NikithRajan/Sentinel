@@ -3,32 +3,72 @@ import os
 import osmnx as ox
 import matplotlib.pyplot as plt
 
-# Load the graph
-G = load_or_create_graph()
 
-print(f"Loaded graph with {len(G.nodes)} nodes and {len(G.edges)} edges")
+def visualize_graph_with_paths(G, original_path=None, safe_path=None, intruder_node=None):
+    """
+    Visualize graph, evacuation paths, and intruder location.
+    """
 
-# Visualize the graph
-# This will open a matplotlib window showing the airport map
-fig, ax = ox.plot_graph(
-    G,
-    node_size=0,  # Hide nodes for cleaner view
-    edge_linewidth=0.5,
-    edge_color='#333333',
-    bgcolor='white',
-    show=False,  # Don't auto-display (we'll control it)
-    close=False,  # Keep the figure open
-    figsize=(12, 12)
-)
+    print(f"Loaded graph with {len(G.nodes)} nodes and {len(G.edges)} edges")
 
-# Save the visualization to a file (path relative to project root, not CWD)
-project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-output_path = os.path.join(project_root, "data", "airport_map.png")
-plt.savefig(output_path, dpi=150, bbox_inches='tight')
-print(f"\nMap saved to: {output_path}")
+    # Base graph
+    fig, ax = ox.plot_graph(
+        G,
+        node_size=0,
+        edge_linewidth=0.5,
+        edge_color="#BBBBBB",
+        bgcolor="white",
+        show=False,
+        close=False,
+        figsize=(12, 12)
+    )
 
-# Display the plot
-plt.show()
+    # Plot original evacuation path
+    if original_path:
+        ox.plot_graph_route(
+            G,
+            original_path,
+            route_color="green",
+            route_linewidth=3,
+            ax=ax,
+            orig_dest_size=60,
+            show=False,
+            close=False
+        )
 
-print("\nGraph visualization displayed!")
-print("Close the matplotlib window when done viewing.")
+    # Plot safe path (if different)
+    if safe_path and safe_path != original_path:
+        ox.plot_graph_route(
+            G,
+            safe_path,
+            route_color="orange",
+            route_linewidth=3,
+            ax=ax,
+            orig_dest_size=60,
+            show=False,
+            close=False
+        )
+
+    # Plot intruder
+    if intruder_node:
+        x = G.nodes[intruder_node]["x"]
+        y = G.nodes[intruder_node]["y"]
+        ax.scatter(
+            x, y,
+            c="red",
+            s=150,
+            marker="X",
+            label="Intruder"
+        )
+
+    ax.legend()
+    plt.title("Evacuation Route Visualization")
+
+    # Save figure
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    output_path = os.path.join(project_root, "data", "evacuation_visualization.png")
+    plt.savefig(output_path, dpi=150, bbox_inches="tight")
+    print(f"\nVisualization saved to: {output_path}")
+
+    plt.show()
+    print("\nVisualization displayed!")

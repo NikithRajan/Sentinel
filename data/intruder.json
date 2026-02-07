@@ -1,0 +1,10 @@
+{
+  "intruder_id": "I1",
+  "location": {
+    "lat": 10.1538,
+    "lon": 76.3915
+  },
+  "radius_meters": 30,
+  "timestamp": "2026-01-20T12:00:00Z",
+  "threat_level": "high"
+}
