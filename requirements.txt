@@ -1,0 +1,9 @@
+osmnx>=1.2
+networkx>=2.6
+geopandas>=0.12
+shapely>=1.8
+rtree
+pyproj
+
+# Optional (for development/testing)
+pytest

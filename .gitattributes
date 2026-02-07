@@ -1,0 +1,8 @@
+# Avoid CRLF/LF churn and keep binaries as binary
+*.py text eol=lf
+*.md text eol=lf
+*.graphml text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
