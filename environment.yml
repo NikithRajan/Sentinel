@@ -1,0 +1,14 @@
+name: sentinel
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - osmnx
+  - geopandas
+  - networkx
+  - rtree
+  - shapely
+  - pyproj
+  - pip
+  - pip:
+    - pytest
