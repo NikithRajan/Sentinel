@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background & Foreground (from your app.css) */
+    --background: 222 47% 4%;    /* #05070a */
+    --foreground: 210 40% 98%;   /* #f8fafc */
+
+    /* Card System */
+    --card: 222 47% 7%;          /* #0f172a */
+    --card-foreground: 210 40% 98%;
+    --card-nested: 222 47% 5.5%;
+
+    /* Muted/Secondary Text */
+    --muted: 217 33% 14%;
+    --muted-foreground: 215 16% 70%; /* Adjusted for readability */
+
+    /* Semantic Colors */
+    --primary: 210 40% 96%;
+    --primary-foreground: 222 47% 4%;
+    
+    --accent: 217 91% 60%;       /* #3b82f6 */
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;    /* #ef4444 */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 14%;
+    --input: 217 33% 14%;
+    --ring: 217 91% 60%;
+
+    /* Custom variables not in standard Tailwind */
+    --rose: 350 89% 72%;
+    --cyan: 187 72% 53%;
+    --brown: 36 5% 64%;
+    --glass: rgba(255, 255, 255, 0.03);
+    --shadow-3d: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
+    
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  /* Modern replacements for Vite defaults */
+  a {
+    @apply text-blue-400 transition-colors hover:text-blue-300 no-underline;
+  }
+  
+  button {
+          @apply inline-flex items-center justify-center rounded-md font-medium
+           transition-colors focus-visible:outline-none
+           focus-visible:ring-1 focus-visible:ring-ring
+           disabled:pointer-events-none disabled:opacity-50;  }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 5px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 10px;
+  }
+}

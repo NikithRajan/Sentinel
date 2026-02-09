@@ -1,0 +1,68 @@
+/* ===============================
+   Dashboard Layout
+   =============================== */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  width: 100vw;
+  height: 100dvh; /* dvh is better for mobile browsers */
+  overflow: hidden;
+}
+
+.sidebar,
+.alert-sidebar {
+  background: #0a0f1d; /* Keeping specific hex for sidebar depth */
+  border-right: 1px solid hsl(var(--border));
+  height: 100vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* ===============================
+   Main Content & Special Gradients
+   =============================== */
+.main-scroll-area {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 40px;
+  background: radial-gradient(circle at top right, #111827, #05070a);
+}
+
+.title-3d {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(to bottom right, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.analytics-section {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.9),
+    rgba(2, 6, 23, 0.95)
+  );
+  border-radius: 22px;
+  padding: 32px 36px;
+  margin-bottom: 45px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow-3d);
+}
+
+.map-container-elegant {
+  background: hsl(var(--card));
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: var(--shadow-3d);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Form Styles */
+select {
+  background: hsl(var(--input));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  padding: 8px 16px;
+  border-radius: 8px;
+}
