@@ -74,19 +74,16 @@ def find_safe_path_nodes(G, start_node, end_node, intruders):
     # - Soft-avoid the surrounding radius by adding a large cost penalty.
     H = G.copy()
 
-    # Hard block intruder node(s) themselves (unless it's start/end)
-    hard_block = {intr["node"] for intr in intruders if intr.get("node") in G}
-    hard_block.discard(start_node)
-    hard_block.discard(end_node)
-    H.remove_nodes_from(hard_block)
-
-    # Collect "danger zone" nodes within radius (meters)
+    # Build danger zone nodes within radius (meters)
     danger_nodes = set()
     for intr in intruders:
         intr_node = intr.get("node")
         r = float(intr.get("radius_meters", 0))
-        if r <= 0 or intr_node not in G:
+        if intr_node not in G or r <= 0:
             continue
+        # Always include the intruder node itself as danger
+        danger_nodes.add(intr_node)
+
         ix = G.nodes[intr_node]["x"]
         iy = G.nodes[intr_node]["y"]
         r2 = r * r
@@ -105,8 +102,22 @@ def find_safe_path_nodes(G, start_node, end_node, intruders):
         base = float(data.get("length", 1.0))
         data["risk_length"] = base + (penalty if (u in danger_nodes or v in danger_nodes) else 0.0)
 
-    # If blocking the intruder node disconnects the graph, there is no truly safe route.
-    return nx.astar_path(H, start_node, end_node, weight="risk_length")
+    # Compute a risk-aware path first
+    risk_path = nx.astar_path(H, start_node, end_node, weight="risk_length")
+
+    # If the risk path still passes through intruder nodes, and we can hard-block intruder nodes, try that route
+    intruder_nodes = {intr.get("node") for intr in intruders if intr.get("node") in G}
+    intruder_nodes.discard(start_node)
+    intruder_nodes.discard(end_node)
+    if any(node in intruder_nodes for node in risk_path):
+        H2 = G.copy()
+        H2.remove_nodes_from(intruder_nodes)
+        try:
+            return nx.astar_path(H2, start_node, end_node, weight="length")
+        except nx.NetworkXNoPath:
+            pass
+
+    return risk_path
 
 
 # ---------------------------------------------------

@@ -1,10 +1,11 @@
 {
   "intruder_id": "I1",
-  "location": {
-    "lat": 10.1538,
-    "lon": 76.3915
-  },
-  "radius_meters": 30,
+  "intruder_node": 5973761733,
+  "person_node": 18306177,
+  "radius_meters": 300,
+  "safe_zones": [
+    {"node": 5973761718}
+  ],
   "timestamp": "2026-01-20T12:00:00Z",
   "threat_level": "high"
 }
