@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import { Map, Maximize2, Volume2, Radio, Target, Shield, AlertTriangle } from "lucide-react"
-import { Button } from "./ui/button" // Relative path fix
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card" // Relative path fix
+import { Button } from "./ui/button" 
+import { Card } from "./ui/card" 
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"
+import { db } from "../firebase" // Ensure this path points to your firebase config
 
 export default function LiveFeed({ currentAlert }) {
   const [isVerifying, setIsVerifying] = useState(false)
@@ -16,7 +18,7 @@ export default function LiveFeed({ currentAlert }) {
 
   const handleVerifyThreat = () => {
     setIsVerifying(true)
-    // In a real app, you would call a Firebase function here
+    // In a real app, you would call a Firebase function here to update the threat status
     setTimeout(() => {
       setIsVerifying(false)
       setActionTaken("THREAT VERIFIED - ESCALATING TO COMMAND")
@@ -32,6 +34,33 @@ export default function LiveFeed({ currentAlert }) {
       setTimeout(() => setActionTaken(null), 3000)
     }, 1500)
   }
+
+  const handleEvacuation = async () => {
+    if (!currentAlert) return;
+    
+    const confirmEvac = window.confirm("WARNING: Initiate Evacuation Protocol?");
+    if (!confirmEvac) return;
+
+    try {
+      // Send the order to Firebase
+      await addDoc(collection(db, "evac_orders"), {
+        threat_id: currentAlert.id,
+        threat_type: currentAlert.intrusion_type,
+        location: currentAlert.location || { lat: 0, lng: 0 },
+        status: "pending",
+        // Hardcoded for the prototype. In production, pull from a registered users list.
+        target_phone: "+917907945877", // REPLACE WITH YOUR VERIFIED TWILIO NUMBER
+        evac_route_url: "https://maps.google.com/?q=safe+zone+coordinates",
+        timestamp: serverTimestamp()
+      });
+
+      setActionTaken("EVACUATION ORDER TRANSMITTED");
+      setTimeout(() => setActionTaken(null), 4000);
+    } catch (error) {
+      console.error("Transmission failed:", error);
+      alert("Error: Failed to transmit evacuation order.");
+    }
+  };
 
   return (
     <div className="flex-1 flex flex-col gap-4 p-4 min-w-0 h-full">
@@ -91,7 +120,8 @@ export default function LiveFeed({ currentAlert }) {
 
             <div className="flex justify-between items-end">
                 <div className="text-[10px] font-mono text-muted-foreground">
-                    LAT: 38.8977° N <br/> LONG: 77.0365° W
+                    LAT: {currentAlert?.location?.lat?.toFixed(4) || "38.8977"}° N <br/> 
+                    LONG: {currentAlert?.location?.lng?.toFixed(4) || "77.0365"}° W
                 </div>
                 <div className="flex gap-1">
                     <div className="w-8 h-1 bg-primary/20"></div>
@@ -117,17 +147,17 @@ export default function LiveFeed({ currentAlert }) {
             />
             
             {currentAlert ? (
-                <div className="text-center z-0">
+                <div className="text-center z-0 relative">
                     <AlertTriangle className="h-16 w-16 text-destructive mx-auto mb-2 animate-bounce" />
                     <h3 className="text-xl font-bold text-destructive tracking-widest uppercase">
                         {currentAlert.intrusion_type || "OBJECT"} DETECTED
                     </h3>
                     <p className="text-sm font-mono text-muted-foreground">
-                        Confidence: {(currentAlert.confidence * 100).toFixed(1)}%
+                        Confidence: {(currentAlert.confidence).toFixed(1)}%
                     </p>
                 </div>
             ) : (
-                <div className="text-center z-0">
+                <div className="text-center z-0 relative">
                     <Radio className="h-12 w-12 text-primary/20 mx-auto mb-2 animate-pulse" />
                     <h3 className="text-lg font-bold text-primary/40 tracking-widest uppercase">
                         SECTOR SECURE
@@ -142,31 +172,44 @@ export default function LiveFeed({ currentAlert }) {
 
       {/* Action Feedback Overlay */}
       {actionTaken && (
-        <div className="bg-background/80 border border-primary/50 rounded p-2 text-center absolute top-20 left-1/2 -translate-x-1/2 z-50 px-8 py-4 backdrop-blur-md shadow-2xl">
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-50 px-8 py-4 bg-background/90 border border-primary/50 rounded backdrop-blur-md shadow-2xl text-center">
           <p className="text-sm font-bold font-mono text-primary animate-pulse">{actionTaken}</p>
         </div>
       )}
 
-      {/* Action Buttons */}
-      <div className="grid grid-cols-2 gap-4 h-16">
-        <Button
-          variant="destructive"
-          className="h-full text-base font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all"
-          disabled={!currentAlert || isVerifying}
-          onClick={handleVerifyThreat}
+      {/* Action Buttons Control Panel */}
+      <div className="flex flex-col gap-3">
+        {/* Row 1: Standard Threat Actions */}
+        <div className="grid grid-cols-2 gap-4 h-14">
+          <Button
+            variant="destructive"
+            className="h-full text-base font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all"
+            disabled={!currentAlert || isVerifying}
+            onClick={handleVerifyThreat}
+          >
+            <Target className="h-5 w-5 mr-2" />
+            ENGAGE / VERIFY
+          </Button>
+          <Button
+            variant="secondary"
+            className="h-full text-base font-bold uppercase tracking-wider bg-emerald-900/50 text-emerald-400 hover:bg-emerald-900/80 border border-emerald-500/30"
+            disabled={!currentAlert || isVerifying}
+            onClick={handleFalseAlarm}
+          >
+            <Shield className="h-5 w-5 mr-2" />
+            FALSE ALARM
+          </Button>
+        </div>
+        
+        {/* Row 2: Critical Escalation */}
+        <button 
+          onClick={handleEvacuation}
+          disabled={!currentAlert}
+          className="w-full h-12 bg-orange-600 hover:bg-orange-700 text-white rounded font-bold tracking-widest transition-all shadow-[0_0_20px_rgba(234,88,12,0.4)] hover:shadow-[0_0_30px_rgba(234,88,12,0.8)] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
         >
-          <Target className="h-5 w-5 mr-2" />
-          ENGAGE / VERIFY
-        </Button>
-        <Button
-          variant="secondary"
-          className="h-full text-base font-bold uppercase tracking-wider bg-emerald-900/50 text-emerald-400 hover:bg-emerald-900/80 border border-emerald-500/30"
-          disabled={!currentAlert || isVerifying}
-          onClick={handleFalseAlarm}
-        >
-          <Shield className="h-5 w-5 mr-2" />
-          FALSE ALARM
-        </Button>
+          <AlertTriangle className="h-5 w-5" />
+          INITIATE EVACUATION
+        </button>
       </div>
     </div>
   )
