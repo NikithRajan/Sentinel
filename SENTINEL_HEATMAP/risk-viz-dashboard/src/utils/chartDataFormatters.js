@@ -8,15 +8,25 @@ export const formatPieData = (intrusions) => {
 
 export const formatBarData = (intrusions) => {
   const zoneCounts = {};
+
   intrusions.forEach(item => {
-    zoneCounts[item.cameraID] = (zoneCounts[item.cameraID] || 0) + 1;
+    if (!item.cameraID) return;
+
+    zoneCounts[item.cameraID] =
+      (zoneCounts[item.cameraID] || 0) + 1;
   });
-  // Sort by frequency and take top 5
-  return Object.keys(zoneCounts)
-    .map(key => ({ zone: key, count: zoneCounts[key] }))
+
+  // ✅ Convert → Sort → Take Top 10
+  return Object.entries(zoneCounts)
+    .map(([zone, count]) => ({
+      zone,            // ZONE-01, ZONE-02 etc
+      count,
+      label: zone      // Future-proof if you want custom labels later
+    }))
     .sort((a, b) => b.count - a.count)
-    .slice(0, 5);
+    .slice(0, 10);
 };
+
 
 export const formatLineData = (intrusions) => {
     // This groups intrusions by hour for the line chart

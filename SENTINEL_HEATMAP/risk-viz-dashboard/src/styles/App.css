@@ -1,97 +1,31 @@
 /* ===============================
-   Global Theme Variables
-   =============================== */
-:root {
-  --bg-body: #05070a;
-  --bg-card: #0f172a;
-
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-
-  --accent: #3b82f6;
-  --danger: #ef4444;
-
-  --rose: #fb7185;
-  --cyan: #22d3ee;
-  --brown: #a8a29e;
-
-  --glass: rgba(255, 255, 255, 0.03);
-  --shadow-3d: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
-}
-
-/* ===============================
-   Global Reset & Body
-   =============================== */
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background-color: var(--bg-body);
-  color: var(--text-primary);
-  font-family: 'Inter', system-ui, sans-serif;
-}
-
-#root {
-  height: 100vh;
-}
-
-/* ===============================
-   DASHBOARD LAYOUT (FIXED)
+   Dashboard Layout
    =============================== */
 .dashboard-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden; /* Prevent whole-page scroll */
+  height: 100dvh; /* dvh is better for mobile browsers */
+  overflow: hidden;
 }
 
-/* ===============================
-   ALERT SIDEBAR (LEFT)
-   =============================== */
-.sidebar {
-  background: #0a0f1d;
-  border-right: 1px solid #1e293b;
-  height: 100vh;
-  overflow-y: auto;
-  padding: 20px;
-}
-
+.sidebar,
 .alert-sidebar {
+  background: #0a0f1d; /* Keeping specific hex for sidebar depth */
+  border-right: 1px solid hsl(var(--border));
   height: 100vh;
   overflow-y: auto;
   padding: 20px;
-  background: #0a0f1d;
-  border-right: 1px solid #1e293b;
-}
-
-/* Optional: nicer scrollbar */
-.alert-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.alert-sidebar::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 6px;
 }
 
 /* ===============================
-   MAIN CONTENT (RIGHT)
+   Main Content & Special Gradients
    =============================== */
 .main-scroll-area {
   height: 100vh;
   overflow-y: auto;
   padding: 40px;
   background: radial-gradient(circle at top right, #111827, #05070a);
-}
-
-/* ===============================
-   HEADER
-   =============================== */
-.header-section {
-  margin-bottom: 40px;
 }
 
 .title-3d {
@@ -102,10 +36,6 @@ body {
   -webkit-text-fill-color: transparent;
   margin: 0;
 }
-
-/* ===============================
-   ANALYTICS SECTION CONTAINERS
-   =============================== */
 
 .analytics-section {
   background: linear-gradient(
@@ -120,70 +50,19 @@ body {
   box-shadow: var(--shadow-3d);
 }
 
-/* Section Header */
-.analytics-header {
-  margin-bottom: 30px;
-  max-width: 900px;
-}
-
-.analytics-title {
-  font-size: 1.8rem;
-  font-weight: 800;
-  margin: 0;
-  color: var(--text-primary);
-}
-
-.analytics-subtitle {
-  margin-top: 8px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
-}
-
-/* Chart wrapper spacing */
-.analytics-content {
-  margin-top: 25px;
-}
-
-
-/* ===============================
-   MAP SECTION
-   =============================== */
-.map-section {
-  margin-top: 40px;
-}
-
 .map-container-elegant {
-  background: var(--bg-card);
+  background: hsl(var(--card));
   border-radius: 20px;
   padding: 25px;
   box-shadow: var(--shadow-3d);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ===============================
-   FORM CONTROLS
-   =============================== */
+/* Form Styles */
 select {
-  background: #1e293b;
-  color: white;
-  border: 1px solid #334155;
+  background: hsl(var(--input));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
   padding: 8px 16px;
   border-radius: 8px;
-  cursor: pointer;
-}
-
-/* ===============================
-   UTILITIES
-   =============================== */
-.text-accent {
-  color: var(--accent);
-}
-
-.text-danger {
-  color: var(--danger);
-}
-
-.text-secondary {
-  color: var(--text-secondary);
 }
