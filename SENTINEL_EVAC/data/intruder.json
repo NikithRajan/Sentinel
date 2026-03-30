@@ -2,9 +2,21 @@
   "intruder_id": "I1",
   "intruder_node": 5973761733,
   "person_node": 18306177,
+  "camera_location": {
+    "lat": 10.1550,
+    "lon": 76.3900
+  },
   "radius_meters": 300,
   "safe_zones": [
-    {"node": 5973761718}
+    {
+      "node": 5973761718
+    },
+    {
+      "node": 5977401607
+    },
+    {
+      "node": 11228383060
+    }
   ],
   "timestamp": "2026-01-20T12:00:00Z",
   "threat_level": "high"

@@ -6,9 +6,11 @@ from .evacuation_router import (
 )
 from .intruder_input import load_intruder_from_json
 from .visualize_graph import visualize_graph_with_paths
+from .directions import generate_directions
 
 import networkx as nx
 import os
+import sys
 
 print("=== TEST STARTED ===")
 
@@ -27,10 +29,12 @@ if not os.path.exists(intruder_json):
 intruder = load_intruder_from_json(intruder_json, G)
 start_node = intruder["person_node"]
 intruder_node = intruder["intruder_node"]
+camera_node = intruder.get("camera_node")
 safe_zones = intruder.get("safe_zones", [])
 
 print("Start node (person):", start_node)
 print("Intruder node:", intruder_node)
+print("Camera node:", camera_node)
 print("Safe zones:", safe_zones)
 
 # Choose destination as farthest node from start
@@ -92,6 +96,15 @@ try:
             safe_path = None
 
     print("Reroute reason:", reroute_reason)
+    
+    # Generate and print text directions
+    path_to_use = safe_path if safe_path else original_path
+    if path_to_use:
+        directions = generate_directions(G, path_to_use)
+        print("\n--- TURN-BY-TURN DIRECTIONS ---")
+        for step_num, step in enumerate(directions, 1):
+            print(f"{step_num}. {step}")
+        print("-------------------------------\n")
 
 except Exception as e:
     print("Error:", repr(e))
@@ -106,5 +119,10 @@ if original_path:
         original_path=original_path,
         safe_path=safe_path,
         intruder_node=intruder_node,
+        person_node=start_node,
+        camera_node=camera_node,
         safe_zone_nodes=safe_zones,
     )
+
+import sys
+sys.exit(0)

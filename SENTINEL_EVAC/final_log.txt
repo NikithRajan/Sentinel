@@ -1,0 +1,24 @@
+=== TEST STARTED ===
+Loading offline graph...
+Graph loaded with 1155 nodes
+Start node (person): 18306177
+Intruder node: 5977401607
+Camera node: 5977401607
+Safe zones: [5973761718, 5977401607, 11228383060]
+Computing nearest safe zone route...
+Routed to safe zone node: 11228383060
+Safe zone path length (meters): 1653.28
+Reroute reason: safe_zone_11228383060
+
+--- TURN-BY-TURN DIRECTIONS ---
+1. Go straight for 10.1 meters, then turn right.
+2. Go straight for 1429.3 meters, then turn down.
+3. Go straight for 213.9 meters to reach the safe zone.
+-------------------------------
+
+Loaded graph with 1155 nodes and 2886 edges
+
+Visualization saved to: d:\Sentinel\Sentinel\SENTINEL_EVAC\data\evacuation_visualization.png
+
+Visualization displayed!
+Done 

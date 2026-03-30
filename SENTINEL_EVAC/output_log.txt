@@ -1,0 +1,46 @@
+=== TEST STARTED ===
+Loading offline graph...
+Graph loaded with 1155 nodes
+Start node (person): 18306177
+Intruder node: 5973761733
+Camera node: 5976994220
+Safe zones: [5973761718]
+End node (destination): 5973761718
+Start node: 18306177
+End node: 5973761718
+Original evacuation path length (nodes): 65
+Original evacuation path length (meters): 8840.35
+Computing nearest safe zone route...
+Routed to safe zone node: 5973761718
+Safe zone path length (meters): 8948.79
+Reroute reason: safe_zone_5973761718
+
+--- TURN-BY-TURN DIRECTIONS ---
+1. Go straight for 10.1 meters, then turn left.
+2. Go straight for 147.9 meters, then turn right.
+3. Go straight for 802.1 meters, then turn right.
+4. Go straight for 1382.6 meters, then turn right.
+5. Go straight for 88.3 meters, then turn left.
+6. Go straight for 62.8 meters, then turn right.
+7. Go straight for 5.3 meters, then turn left.
+8. Go straight for 1440.4 meters, then turn left.
+9. Go straight for 433.7 meters, then turn left.
+10. Go straight for 51.4 meters, then turn right.
+11. Go straight for 334.5 meters, then turn left.
+12. Go straight for 321.3 meters, then turn right.
+13. Go straight for 153.2 meters, then turn left.
+14. Go straight for 280.2 meters, then turn right.
+15. Go straight for 784.9 meters, then turn left.
+16. Go straight for 73.4 meters, then turn right.
+17. Go straight for 108.4 meters, then turn left.
+18. Go straight for 518.6 meters, then turn right.
+19. Go straight for 282.4 meters, then turn left.
+20. Go straight for 373.2 meters, then turn right.
+21. Go straight for 83.9 meters, then turn left.
+22. Go straight for 620.3 meters, then turn right.
+23. Go straight for 252.0 meters, then turn left.
+24. Go straight for 132.3 meters, then turn right.
+25. Go straight for 104.9 meters, then turn left.
+26. Go straight for 100.8 meters to reach the safe zone.
+-------------------------------
+

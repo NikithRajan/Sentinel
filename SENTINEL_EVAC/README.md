@@ -56,7 +56,9 @@ An example `data/intruder.json` is included. Format:
 ```json
 {
   "intruder_id": "I1",
-  "location": {"lat": 10.1560, "lon": 76.3920},
+  "intruder_location": {"lat": 10.1560, "lon": 76.3920},
+  "person_location": {"lat": 10.1538, "lon": 76.3915},
+  "camera_location": {"lat": 10.1550, "lon": 76.3900},
   "radius_meters": 150,
   "timestamp": "2026-01-20T12:00:00Z",
   "threat_level": "high"

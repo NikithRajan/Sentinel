@@ -6,6 +6,7 @@ __all__ = [
     "find_shortest_path_nodes",
     "find_safe_path_nodes",
     "path_length",
+    "get_evacuation_route",
 ]
 
 # ---------------------------------------------------

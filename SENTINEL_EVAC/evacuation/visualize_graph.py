@@ -4,9 +4,17 @@ import osmnx as ox
 import matplotlib.pyplot as plt
 
 
-def visualize_graph_with_paths(G, original_path=None, safe_path=None, intruder_node=None, safe_zone_nodes=None):
+def visualize_graph_with_paths(
+    G,
+    original_path=None,
+    safe_path=None,
+    intruder_node=None,
+    person_node=None,
+    camera_node=None,
+    safe_zone_nodes=None,
+):
     """
-    Visualize graph, evacuation paths, intruder location, and safe zones.
+    Visualize graph, evacuation paths, intruder location, person location, camera location, and safe zones.
     """
 
     print(f"Loaded graph with {len(G.nodes)} nodes and {len(G.edges)} edges")
@@ -57,9 +65,23 @@ def visualize_graph_with_paths(G, original_path=None, safe_path=None, intruder_n
         ax.scatter(
             x, y,
             c="red",
-            s=150,
+            s=250,
             marker="X",
-            label="Intruder"
+            label="Intruder",
+            zorder=10
+        )
+
+    # Plot person
+    if person_node and person_node in G:
+        px = G.nodes[person_node]["x"]
+        py = G.nodes[person_node]["y"]
+        ax.scatter(
+            px, py,
+            c="blue",
+            s=200,
+            marker="P",
+            label="Person",
+            zorder=9
         )
 
     # Plot safe zone nodes
@@ -72,11 +94,25 @@ def visualize_graph_with_paths(G, original_path=None, safe_path=None, intruder_n
                 xs,
                 ys,
                 c="purple",
-                s=80,
+                s=100,
                 marker="o",
                 label="Safe Zones",
-                edgecolors="k"
+                edgecolors="k",
+                zorder=5
             )
+
+    # Plot camera
+    if camera_node and camera_node in G:
+        cx = G.nodes[camera_node]["x"]
+        cy = G.nodes[camera_node]["y"]
+        ax.scatter(
+            cx, cy,
+            c="orange",
+            s=150,
+            marker="s",
+            label="Camera",
+            zorder=6
+        )
 
     ax.legend()
     plt.title("Evacuation Route Visualization")

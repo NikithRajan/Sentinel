@@ -58,10 +58,20 @@ def load_intruder_from_json(json_path, G):
         elif isinstance(zone, int):
             safe_zones.append(zone)
 
+    if "camera_node" in data:
+        camera_node = data["camera_node"]
+    elif "camera_location" in data:
+        lat = data["camera_location"]["lat"]
+        lon = data["camera_location"]["lon"]
+        camera_node = ox.nearest_nodes(G, lon, lat)
+    else:
+        camera_node = None
+
     return {
         "intruder_id": data.get("intruder_id", "intruder"),
         "intruder_node": intruder_node,
         "person_node": person_node,
+        "camera_node": camera_node,
         "radius_meters": radius,
         "safe_zones": safe_zones,
         "threat_level": data.get("threat_level", "unknown"),
