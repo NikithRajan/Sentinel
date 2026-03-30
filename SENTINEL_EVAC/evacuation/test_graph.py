@@ -101,10 +101,27 @@ try:
     path_to_use = safe_path if safe_path else original_path
     if path_to_use:
         directions = generate_directions(G, path_to_use)
+        
+        directions_output = {
+            "reroute_reason": reroute_reason,
+            "total_steps": len(directions),
+            "directions": []
+        }
+        
         print("\n--- TURN-BY-TURN DIRECTIONS ---")
         for step_num, step in enumerate(directions, 1):
             print(f"{step_num}. {step}")
+            directions_output["directions"].append({
+                "step": step_num,
+                "instruction": step
+            })
         print("-------------------------------\n")
+        
+        import json
+        out_json_file = os.path.join("data", "evacuation_directions.json")
+        with open(out_json_file, 'w') as f:
+            json.dump(directions_output, f, indent=4)
+        print(f"Directions explicitly exported to: {out_json_file}")
 
 except Exception as e:
     print("Error:", repr(e))
