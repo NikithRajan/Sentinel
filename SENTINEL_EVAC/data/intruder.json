@@ -1,23 +1,23 @@
 {
-  "intruder_id": "I1",
-  "intruder_node": 5973761733,
-  "person_node": 18306177,
-  "camera_location": {
-    "lat": 10.1550,
-    "lon": 76.3900
-  },
-  "radius_meters": 300,
-  "safe_zones": [
-    {
-      "node": 5973761718
+    "intruder_id": "1WU07L5t6zKu6tA0VI1s",
+    "intruder_location": {
+        "lat": 10.155,
+        "lon": 76.39
     },
-    {
-      "node": 5977401607
+    "person_location": {
+        "lat": 10.1538,
+        "lon": 76.3915
     },
-    {
-      "node": 11228383060
-    }
-  ],
-  "timestamp": "2026-01-20T12:00:00Z",
-  "threat_level": "high"
+    "safe_zones": [
+        {
+            "lat": 10.154,
+            "lon": 76.3908
+        },
+        {
+            "lat": 10.1546,
+            "lon": 76.3922
+        }
+    ],
+    "radius_meters": 150,
+    "threat_level": "HUMAN"
 }

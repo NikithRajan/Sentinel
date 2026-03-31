@@ -123,5 +123,6 @@ def visualize_graph_with_paths(
     plt.savefig(output_path, dpi=150, bbox_inches="tight")
     print(f"\nVisualization saved to: {output_path}")
 
-    plt.show()
-    print("\nVisualization displayed!")
+    # Remove blocking plt.show() to prevent the subprocess from hanging infinitely in production!
+    # plt.show()
+    # print("\nVisualization displayed!")

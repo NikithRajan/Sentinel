@@ -26,14 +26,13 @@ if MQTT_USERNAME and MQTT_PASSWORD:
 if MQTT_PORT == 8883:
     client.tls_set(cert_reqs=ssl.CERT_NONE) # Allows connection without strict certificate verification
 
-# Connect and start the background thread
+# Connect asynchronously and start the background thread so the camera doesn't freeze on bad WiFi
 try:
-    client.connect(MQTT_BROKER, MQTT_PORT, 60)
+    print("🔌 Attempting to resolve MQTT Broker...")
+    client.connect_async(MQTT_BROKER, MQTT_PORT, 60)
     client.loop_start()
-    print("✅ MQTT Connected!")
 except Exception as e:
-    print(f"❌ Failed to connect to MQTT: {e}")
-    exit(1)
+    print(f"❌ Failed to connect to MQTT: {e}. Camera will still start.")
 
 # --- 2. YOLO SETUP ---
 MODEL_PATH = "best.pt" 

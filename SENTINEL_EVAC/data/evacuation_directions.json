@@ -1,18 +1,10 @@
 {
-    "reroute_reason": "safe_zone_5977401607",
-    "total_steps": 3,
+    "reroute_reason": "safe_zone_5976994220",
+    "total_steps": 1,
     "directions": [
         {
             "step": 1,
-            "instruction": "Go straight for 10.1 meters, then turn left."
-        },
-        {
-            "step": 2,
-            "instruction": "Go straight for 147.9 meters, then turn right."
-        },
-        {
-            "step": 3,
-            "instruction": "Go straight for 506.4 meters to reach the safe zone."
+            "instruction": "You have arrived."
         }
     ]
 }
